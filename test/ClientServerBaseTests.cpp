@@ -7,7 +7,7 @@
 using namespace clientServer;
 using namespace boost::asio;
 
-TEST_CASE("testing get_ip", "[server]") {
+TEST_CASE("testing get_ip") {
   auto base = ClientServerBase{};
 
   SECTION("returns proper IP type") {

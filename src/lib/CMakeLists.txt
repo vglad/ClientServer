@@ -6,7 +6,11 @@ include(AddBoostAsio)
 
 find_package(Threads REQUIRED)
 
-set(source_files ClientServerBase.cpp Server.cpp Client.cpp)
+set(source_files
+    ../../include/lib/ClientServerBase.hpp
+    ../../include/lib/Server.hpp
+    ../../include/lib/Client.hpp
+    ClientServerBase.cpp Server.cpp Client.cpp)
 add_library(libClientServer STATIC ${source_files})
 
 target_link_libraries(libClientServer PRIVATE Threads::Threads)

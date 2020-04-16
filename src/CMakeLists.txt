@@ -14,5 +14,6 @@ target_include_directories(main PRIVATE
 
 if(WIN32)
   target_compile_definitions(main
-      PRIVATE "-DBOOST_ASIO_STANDALONE -D_WIN32_WINNT=0x0A00")
+      PRIVATE "-DBOOST_ASIO_STANDALONE -D_WIN32_WINNT=0x0A00"
+  )
 endif()

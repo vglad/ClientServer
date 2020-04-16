@@ -33,11 +33,19 @@ namespace clientServer {
         auto ec         = boost::system::error_code{};
         auto ip_address = IPAddrT::from_string(raw_ip, ec);
         if (ec.value() != 0) {
-          std::throw_with_nested(std::invalid_argument(concat(
-              "Failed to parse IP address: [",
-              std::is_same_v<IPAddrT, ip::address_v4> ? "IPv4" : "IPv6", ", ",
-              raw_ip, "]. Error #: ", ec.value(), ". Message: ", ec.message()
-          )));
+          std::ostringstream err_msg;
+          err_msg << "Failed to parse IP address: ["
+                  << (std::is_same_v<IPAddrT, ip::address_v4> ? "IPv4" : "IPv6")
+                  << ", " << raw_ip << "]. "
+                  << "Error #: " << ec.value() << ". Message: " << ec.message();
+          std::throw_with_nested(std::invalid_argument(err_msg.str()));
+
+//          std::throw_with_nested(std::invalid_argument(concat(
+//              "Failed to parse IP address: [",
+//              std::is_same_v<IPAddrT, ip::address_v4> ? "IPv4" : "IPv6", ", ",
+//              raw_ip, "]. Error #: ", ec.value(), ". Message: ", ec.message()
+//          )));
+
         }
         return ip_address;
       }

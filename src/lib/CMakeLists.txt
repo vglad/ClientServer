@@ -20,8 +20,8 @@ target_include_directories(libClientServer PRIVATE
     ../../include/lib
 )
 
+set(compile_definitions -DBOOST_ASIO_STANDALONE)
 if(WIN32)
-  target_compile_definitions(libClientServer
-      PRIVATE "-DBOOST_ASIO_STANDALONE -D_WIN32_WINNT=0x0A00")
-#      PRIVATE "-DBOOST_ALL_NO_LIB -DBOOST_ASIO_STANDALONE -DBOOST_ERROR_CODE_HEADER_ONLY -D_WIN32_WINNT=0x0A00")
+  set(compile_definitions -D_WIN32_WINNT=0x0A00 ${compile_definitions})
 endif()
+target_compile_definitions(libClientServer PRIVATE ${compile_definitions})

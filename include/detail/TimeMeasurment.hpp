@@ -12,7 +12,8 @@ namespace detail {
   using namespace std::chrono;
   using time_point = high_resolution_clock::time_point;
 
-  [[maybe_unused]] static auto time_now() -> time_point {
+  [[maybe_unused]]
+  static auto time_now() -> time_point {
     return high_resolution_clock::now();
   }
 

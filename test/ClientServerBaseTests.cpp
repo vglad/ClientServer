@@ -15,6 +15,10 @@ TEST_CASE("testing get_ip") {
       auto ip = base.get_ip<ip::address_v4>("127.0.0.1");
       REQUIRE(ip.to_string() == "127.0.0.1");
       REQUIRE(ip.any() == ip::address_v4());
+
+      ip = base.get_ip<ip::address_v4>("127.05.078.001");
+      REQUIRE(ip.to_string() == "127.5.78.1");
+      REQUIRE(ip.any() == ip::address_v4());
     }
 
     SECTION("returns proper IP type if IPv6 and properly parsed") {
@@ -36,9 +40,30 @@ TEST_CASE("testing get_ip") {
                         std::invalid_argument);
       REQUIRE_THROWS_WITH(
           base.get_ip<ip::address_v4>("127.0.0"),
-          Catch::Contains(concat("Failed to parse IP address: [IPv4, 127.0.0]. ",
-                                 "Error #: ", errNum))
+          Catch::Contains(concat("Failed to parse IP address: [IPv4, 127.0.0]."))
       );
+
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("127.0.0.465"),
+                                std::invalid_argument);
+      REQUIRE_THROWS_WITH(
+          base.get_ip<ip::address_v4>("127.0.0.465"),
+          Catch::Contains(concat("Failed to parse IP address: [IPv4, 127.0.0.465]."))
+      );
+
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("0127.0.0.465"),
+                        std::invalid_argument);
+      REQUIRE_THROWS_WITH(
+          base.get_ip<ip::address_v4>("0127.0.0.465"),
+          Catch::Contains(concat("Failed to parse IP address: [IPv4, 0127.0.0.465]."))
+      );
+
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("0127..0.465"),
+                        std::invalid_argument);
+      REQUIRE_THROWS_WITH(
+          base.get_ip<ip::address_v4>("0127..0.465"),
+          Catch::Contains(concat("Failed to parse IP address: [IPv4, 0127..0.465]."))
+      );
+
     }
 
     SECTION("throw if protocol IPv6 and not parsed") {
@@ -46,8 +71,7 @@ TEST_CASE("testing get_ip") {
                         std::invalid_argument);
       REQUIRE_THROWS_WITH(
           base.get_ip<ip::address_v6>("fe80::4a::"),
-          Catch::Contains(concat("Failed to parse IP address: [IPv6, fe80::4a::]. ",
-                                 "Error #: ", errNum))
+          Catch::Contains(concat("Failed to parse IP address: [IPv6, fe80::4a::]."))
       );
     }
   }

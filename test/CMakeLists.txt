@@ -9,11 +9,11 @@ include(AddTrompeloeil)
 
 set(source_files
     catch_main.cpp 
-    lib_Tests.cpp 
-    ClientServerBaseTests.cpp 
+    lib_Tests.cpp
+    ClientServerBaseTests.cpp
     ServerTests.cpp
     ClientTests.cpp
-)
+    )
 
 add_executable(tests ${source_files})
 target_link_libraries(tests PRIVATE ${catch2} ${trompeloeil} libClientServer)

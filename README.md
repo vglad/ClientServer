@@ -1,3 +1,6 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/ax19mkksdk3rmh25?svg=true)](https://ci.appveyor.com/project/vglad/clientserver)
+[![Build Status](https://travis-ci.com/vglad/ClientServer.svg?branch=master)](https://travis-ci.com/vglad/ClientServer)
+
 # Client-Server
 Distributed application using Boost::Asio and C++17.
 

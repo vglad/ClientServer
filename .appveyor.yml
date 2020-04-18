@@ -12,15 +12,8 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       fast_finish: true 
 
-    - platform: x64
-      generator: Visual Studio 15 2017 Win64
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      fast_finish: true 
-
-
 install:
 -  ps: |
-
      if (![IO.File]::Exists("C:\cmake-3.17.0\bin\cmake.exe")) {
        Start-FileDownload 'https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0-win64-x64.zip'
        7z x -y cmake-3.17.0-win64-x64.zip -oC:\cmake-3.17.0

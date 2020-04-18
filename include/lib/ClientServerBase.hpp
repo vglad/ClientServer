@@ -15,38 +15,40 @@ namespace clientServer {
   class ClientServerBase {
   public:
 
-    template <typename ProtocolT, typename IPAddrT>
-      typename ProtocolT::endpoint
-      create_endpoint(int16_t port_num, std::string const & raw_ip = std::string{}) {
-        try {
-          auto ip_address = get_ip<IPAddrT>(raw_ip);
-          return typename ProtocolT::endpoint(ip_address, port_num);
-        }
-        catch (...) {
-          std::throw_with_nested(std::invalid_argument("Failed to create endpoint"));
-        }
+    template <typename Protocol, typename IPAddrVersion>
+    typename Protocol::endpoint
+    create_endpoint(int16_t port_num, std::string const & raw_ip = std::string{}) {
+      try {
+        auto ip_address = get_ip<IPAddrVersion>(raw_ip);
+        return typename Protocol::endpoint(ip_address, port_num);
       }
+      catch (...) {
+        std::throw_with_nested(std::invalid_argument("Failed to create endpoint"));
+      }
+    }
 
-    template<typename IPAddrT>
-      IPAddrT
-      get_ip(std::string const & raw_ip) const {
-        if (raw_ip.empty()) { return IPAddrT::any(); }
-        auto ec                    = boost::system::error_code{};
-        auto ip_address            = IPAddrT::from_string(raw_ip, ec);
-        auto raw_ip_converted_back = ip_address.to_string();
-        auto err_msg               = std::ostringstream{};
-        err_msg << "Failed to parse IP address: ["
-                << (std::is_same_v<IPAddrT, ip::address_v4> ? "IPv4" : "IPv6")
-                << ", " << raw_ip << "].\n";
-        if (ec.value() != 0) {
-          err_msg << "Error #: " << ec.value() << ". Message: " << ec.message();
-          std::throw_with_nested(std::invalid_argument(err_msg.str()));
-        }
-        if (raw_ip_converted_back != raw_ip) {
-          std::throw_with_nested(std::invalid_argument(err_msg.str()));
-        }
-        return ip_address;
+    template <typename IPAddrVersion>
+    IPAddrVersion get_ip(std::string const & raw_ip) const {
+      if (raw_ip.empty()) { return IPAddrVersion::any(); }
+
+      auto ec                  = boost::system::error_code{};
+      auto ip_addr             = IPAddrVersion::from_string(raw_ip, ec);
+      auto raw_ip_from_ip_addr = ip_addr.to_string();
+
+      auto err_msg             = std::ostringstream{};
+      err_msg << "Failed to parse IP address: ["
+              << (std::is_same_v<IPAddrVersion, ip::address_v4> ? "IPv4" : "IPv6")
+              << ", " << raw_ip << "]\n";
+
+      if (ec.value() != 0) {
+        err_msg << "Error #: [" << ec.value() << "]: " << ec.message();
+        std::throw_with_nested(std::invalid_argument(err_msg.str()));
       }
+      if (raw_ip_from_ip_addr != raw_ip) {
+        std::throw_with_nested(std::invalid_argument(err_msg.str()));
+      }
+      return ip_addr;
+    }
 
   };
 

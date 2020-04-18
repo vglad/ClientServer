@@ -18,7 +18,6 @@ namespace clientServer::detail {
         return dynamic_cast<const std::nested_exception &>(e).nested_ptr();
       }
       catch (...) {
-      //catch (const std::bad_cast &) {
         return nullptr;
       }
     };
@@ -27,7 +26,8 @@ namespace clientServer::detail {
       if (eptr) { std::rethrow_exception(eptr); }
     }
     catch (const std::exception & e) {
-      std::cerr << std::string(level, ' ') << "exception: " << e.what() << '\n';
+      std::cerr << std::string(level * 2, ' ')
+                << "exception: " << e.what() << '\n';
       // rewind all nested exception
       print_nested_exception(get_nested(e), level + 1);
     }

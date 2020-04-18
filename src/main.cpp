@@ -38,7 +38,7 @@ bool check_ip(std::string const & raw_ip) {
 int main() {
   try {
     auto cli = Client{};
-    cli.create_endpoint<ip::tcp, ip::address_v4>(3333, "127.5.78.1");
+    cli.create_endpoint<ip::tcp, ip::address_v6>(3333, "w::4abd:eew8:f318:9528");
 
 //    auto ec = boost::system::error_code{};
 //    auto ip = std::string {"13..99.2"};

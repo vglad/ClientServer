@@ -2,92 +2,76 @@
 #include <catch2/trompeloeil.hpp>
 
 #include "ClientServerBase.hpp"
-#include "StringUtils.hpp"
 
 using namespace clientServer;
 using namespace boost::asio;
 
-TEST_CASE("testing get_ip") {
+TEST_CASE("ClientServerBase get_ip tests") {
   auto base = ClientServerBase{};
 
   SECTION("returns proper IP type") {
-    SECTION("returns proper IP type if IPv4 and properly parsed") {
-      auto ip = base.get_ip<ip::address_v4>("127.0.0.1");
-      REQUIRE(ip.to_string() == "127.0.0.1");
-      REQUIRE(ip.any() == ip::address_v4());
 
-      ip = base.get_ip<ip::address_v4>("127.05.078.001");
-      REQUIRE(ip.to_string() == "127.5.78.1");
+    SECTION("returns proper IP type if IPv4 and properly parsed") {
+      auto ip = ip::address_v4{};
+      REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v4>(""));
+      REQUIRE(ip.any() == ip::address_v4());
+      REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v4>("0.0.0.0"));
+      REQUIRE(ip.any() == ip::address_v4());
+      REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v4>("0.1.2.3"));
+      REQUIRE(ip.any() == ip::address_v4());
+      REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v4>("127.0.0.1"));
+      REQUIRE(ip.any() == ip::address_v4());
+      REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v4>("127.5.78.1"));
       REQUIRE(ip.any() == ip::address_v4());
     }
 
     SECTION("returns proper IP type if IPv6 and properly parsed") {
-      auto ip = base.get_ip<ip::address_v6>("fe80::4abd:ee8:f318:9528");
-      REQUIRE(ip.to_string() == "fe80::4abd:ee8:f318:9528");
+      auto ip = ip::address_v6{};
+      REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v6>(""));
+      REQUIRE(ip.any() == ip::address_v6());
+      REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v6>("fe80::4abd:ee8:f318:9528"));
       REQUIRE(ip.any() == ip::address_v6());
     }
 
   }
 
-  SECTION("returns error if parameters invalid") {
-    auto errNum = 22;
-#ifdef WIN32
-    errNum = 10022;
-#endif
+  SECTION("throw if invalid ip address format") {
 
     SECTION("throw if protocol IPv4 and not parsed") {
-      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("127.0.0"),
-                        std::invalid_argument);
-      REQUIRE_THROWS_WITH(
-          base.get_ip<ip::address_v4>("127.0.0"),
-          Catch::Contains(concat("Failed to parse IP address: [IPv4, 127.0.0]."))
-      );
-
-      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("127.0.0.465"),
-                                std::invalid_argument);
-      REQUIRE_THROWS_WITH(
-          base.get_ip<ip::address_v4>("127.0.0.465"),
-          Catch::Contains(concat("Failed to parse IP address: [IPv4, 127.0.0.465]."))
-      );
-
-      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("0127.0.0.465"),
-                        std::invalid_argument);
-      REQUIRE_THROWS_WITH(
-          base.get_ip<ip::address_v4>("0127.0.0.465"),
-          Catch::Contains(concat("Failed to parse IP address: [IPv4, 0127.0.0.465]."))
-      );
-
-      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("0127..0.465"),
-                        std::invalid_argument);
-      REQUIRE_THROWS_WITH(
-          base.get_ip<ip::address_v4>("0127..0.465"),
-          Catch::Contains(concat("Failed to parse IP address: [IPv4, 0127..0.465]."))
-      );
-
+      using inv_arg = std::invalid_argument;
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("0"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("127.0.0"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>(".0.0.4"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("127.0.0.d"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("127..0.qwe"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("145.4.0.12w"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("127.0.0.465"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("0127.0.0.465"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v4>("0127..0.465"), inv_arg);
     }
 
     SECTION("throw if protocol IPv6 and not parsed") {
-      REQUIRE_THROWS_AS(base.get_ip<ip::address_v6>("fe80::4a::"),
-                        std::invalid_argument);
-      REQUIRE_THROWS_WITH(
-          base.get_ip<ip::address_v6>("fe80::4a::"),
-          Catch::Contains(concat("Failed to parse IP address: [IPv6, fe80::4a::]."))
-      );
+      using inv_arg = std::invalid_argument;
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v6>("0"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v6>("fe80::4a::"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v6>("fe80::4amm::"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v6>("4abd:ee8:f318:9528"), inv_arg);
+      REQUIRE_THROWS_AS(base.get_ip<ip::address_v6>("fe80::34abd:ee8:f318:9528"), inv_arg);
     }
   }
 }
 
-//TEST_CASE("ClientServerBase create_endpoint", "[ClientServerBase]") {
-//  auto base = ClientServerBase{};
-//
-//  SECTION("returns endpoint if parameters valid") {
-//    SECTION("returns endpoint with specified port number, "
-//            "TCP protocol and IP address v4, unspecified") {
-//      auto ep = base.create_endpoint<ip::tcp, ip::address_v4>(3333);
-//      REQUIRE(ep.port() == 3333);
-//      REQUIRE(ep.address().is_v4());
-//      REQUIRE(ep.protocol().protocol() == ip::tcp::v4().protocol());
-//    }
+TEST_CASE("ClientServerBase create_endpoint tests") {
+  auto base = ClientServerBase{};
+
+  SECTION("returns endpoint if parameters valid") {
+    SECTION("returns endpoint with specified port number, "
+            "TCP protocol and IP address v4, unspecified") {
+      auto ep = base.create_endpoint<ip::tcp, ip::address_v4>(3333);
+      REQUIRE(ep.port() == 3333);
+      REQUIRE(ep.address().is_v4());
+      REQUIRE(ep.protocol().protocol() == ip::tcp::v4().protocol());
+    }
 //
 //    SECTION("returns endpoint with specified port number, "
 //            "TCP protocol and IP address v4, 127.0.0.1") {
@@ -152,5 +136,5 @@ TEST_CASE("testing get_ip") {
 //      REQUIRE(ep.address().to_string() == "fe80::4abd:ee8:f318:9528");
 //      REQUIRE(ep.protocol().protocol() == ip::udp::v6().protocol());
 //    }
-//  }
-//}
+  }
+}

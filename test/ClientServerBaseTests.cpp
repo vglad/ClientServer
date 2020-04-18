@@ -65,31 +65,55 @@ TEST_CASE("ClientServerBase create_endpoint tests") {
   auto base = ClientServerBase{};
 
   SECTION("returns endpoint if parameters valid") {
-    SECTION("returns endpoint with specified port number, "
-            "TCP protocol and IP address v4, unspecified") {
-      auto ep = base.create_endpoint<ip::tcp, ip::address_v4>(3333);
-      REQUIRE(ep.port() == 3333);
-      REQUIRE(ep.address().is_v4());
-      REQUIRE(ep.protocol().protocol() == ip::tcp::v4().protocol());
+    SECTION("returns endpoint with TCP protocol and unspecified IP address") {
+      auto ep = ip::tcp::endpoint{};
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v4>(0));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v4>(3333));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v4>(65535));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v6>(0));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v6>(3333));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v6>(65535));
     }
-//
-//    SECTION("returns endpoint with specified port number, "
-//            "TCP protocol and IP address v4, 127.0.0.1") {
-//      auto ep = base.create_endpoint<ip::tcp, ip::address_v4>(
-//          3333, "127.0.0.1");
-//      REQUIRE(ep.port() == 3333);
-//      REQUIRE(ep.address().is_v4());
-//      REQUIRE(ep.address().to_string() == "127.0.0.1");
-//      REQUIRE(ep.protocol().protocol() == ip::tcp::v4().protocol());
-//    }
-//
-//    SECTION("returns endpoint with specified port number, "
-//            "TCP protocol and IP address v6, unspecified") {
-//      auto ep = base.create_endpoint<ip::tcp, ip::address_v6>(3333);
-//      REQUIRE(ep.port() == 3333);
-//      REQUIRE(ep.address().is_v6());
-//      REQUIRE(ep.protocol().protocol() == ip::tcp::v6().protocol());
-//    }
+
+    SECTION("returns endpoint with UDP protocol and unspecified IP address") {
+      auto ep = ip::udp::endpoint{};
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v4>(0));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v4>(3333));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v4>(65535));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v6>(0));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v6>(3333));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v6>(65535));
+    }
+
+
+    SECTION("returns endpoint with TCP protocol and specified IP address") {
+      auto ep = ip::tcp::endpoint{};
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v4>(0, ""));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v4>(3333, "0.0.0.1"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v4>(65535, "127.0.0.1"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v6>(0, "::"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v6>(3333, "fe80::4abd:ee8:f318:9528"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::tcp, ip::address_v6>(65535, "fe30::4ab1:ee7:f318:9528"));
+    }
+
+    SECTION("returns endpoint with UDP protocol and specified IP address") {
+      auto ep = ip::udp::endpoint{};
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v4>(0, ""));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v4>(3333, "0.0.0.1"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v4>(65535, "127.0.0.1"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v6>(0, "::"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v6>(3333, "fe80::4abd:ee8:f318:9528"));
+      REQUIRE_NOTHROW(ep = base.create_endpoint<ip::udp, ip::address_v6>(65535, "fe30::4ab1:ee7:f318:9528"));
+    }
+
+
+    SECTION("returns endpoint with specified port number, "
+            "TCP protocol and IP address v6, unspecified") {
+      auto ep = base.create_endpoint<ip::tcp, ip::address_v6>(3333);
+      REQUIRE(ep.port() == 3333);
+      REQUIRE(ep.address().is_v6());
+      REQUIRE(ep.protocol().protocol() == ip::tcp::v6().protocol());
+    }
 //
 //    SECTION("returns endpoint with specified port number, "
 //            "TCP protocol and IP address v6, fe80::4abd:ee8:f318:9528") {

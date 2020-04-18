@@ -17,7 +17,7 @@ namespace clientServer {
 
     template <typename Protocol, typename IPAddrVersion>
     typename Protocol::endpoint
-    create_endpoint(int16_t port_num, std::string const & raw_ip = std::string{}) {
+    create_endpoint(uint16_t port_num, std::string const & raw_ip = std::string{}) {
       try {
         auto ip_address = get_ip<IPAddrVersion>(raw_ip);
         return typename Protocol::endpoint(ip_address, port_num);

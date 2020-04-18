@@ -1,7 +1,7 @@
 #ifndef CLIENTSERVER_INCLUDE_DETAIL_STRINGUTILS_HPP
 #define CLIENTSERVER_INCLUDE_DETAIL_STRINGUTILS_HPP
 
-#include <iostream>
+#include <sstream>
 
 namespace clientServer::detail {
 

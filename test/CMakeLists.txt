@@ -21,10 +21,4 @@ target_include_directories(tests PRIVATE
     ../include/detail
     ../include/lib
 )
-
-set(compile_definitions -DBOOST_ASIO_STANDALONE)
-if(WIN32)
-  # Needed definition for Boost::Asio
-  set(compile_definitions -D_WIN32_WINNT=0x0A00 ${compile_definitions})
-endif()
 target_compile_definitions(tests PRIVATE ${compile_definitions})

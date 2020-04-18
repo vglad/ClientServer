@@ -1,16 +1,10 @@
 #ifndef CLIENTSERVER_INCLUDE_LIB_CLIENTSERVERBASE_HPP
 #define CLIENTSERVER_INCLUDE_LIB_CLIENTSERVERBASE_HPP
 
-#include "StringUtils.hpp"
-
-#include <string>
 #include <boost/asio.hpp>
 
 namespace clientServer {
-
-  using namespace clientServer::detail;
   using namespace boost::asio;
-
 
   class ClientServerBase {
   public:

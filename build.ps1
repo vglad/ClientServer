@@ -56,7 +56,7 @@ if ($SkipTests -eq $true) {
 
 # Configure CMake and build
 [String]$BuildTests      = '-DSKIP_TESTS=' + $NoTests
-[String]$CXX_Flags       = '-DCMAKE_CXX_FLAGS="/std:c++17 /EHsc /W4 /WX"'
+[String]$CXX_Flags       = '-DCMAKE_CXX_FLAGS="/EHsc /W4 /WX"'
 [String]$CMakeFilePath   = '..\..'
 [String]$Verbose         = '-DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF'
 [String[]]$arguments     = @($BuildTests, $CXX_Flags, $Verbose, $CMakeFilePath)

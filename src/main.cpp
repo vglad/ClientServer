@@ -12,10 +12,13 @@ using namespace boost::asio;
 
 int main() {
   try {
-    auto cli = Client{};
-    auto ep = cli.create_endpoint<ip::tcp, ip::address_v4>(3333, "128.6.65.2");
+    auto srv = Server{};
+    auto srv_ep = srv.create_endpoint<ip::udp, ip::address_v4>(5555, "127.0.0.1");
 
-    std::cout << concat(std::string("1"), "2", ep.port());
+    auto cli = Client{};
+    auto cli_ep = cli.create_endpoint<ip::tcp, ip::address_v6>(3333);
+
+
   }
   catch (std::exception const &) {
      print_nested_exception();

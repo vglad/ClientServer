@@ -9,6 +9,7 @@ if (NOT EXISTS ${BOOST_DIR})
   set(boost_major_ver    "1")
   set(boost_minor_ver    "72")
   set(boost_revision_ver "0")
+
   set(boost_ver "${boost_major_ver}.${boost_minor_ver}.${boost_revision_ver}")
   set(boost_temp_dir ${CMAKE_CURRENT_SOURCE_DIR}/../../ext/boost_tar_temp)
   set(boost_components asio system config winapi predef)

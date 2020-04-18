@@ -9,7 +9,6 @@ include(AddTrompeloeil)
 
 set(source_files
     catch_main.cpp 
-    lib_Tests.cpp
     ClientServerBaseTests.cpp
     ServerTests.cpp
     ClientTests.cpp
@@ -25,6 +24,7 @@ target_include_directories(tests PRIVATE
 
 set(compile_definitions -DBOOST_ASIO_STANDALONE)
 if(WIN32)
+  # Needed definition for Boost::Asio
   set(compile_definitions -D_WIN32_WINNT=0x0A00 ${compile_definitions})
 endif()
 target_compile_definitions(tests PRIVATE ${compile_definitions})

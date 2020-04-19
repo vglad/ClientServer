@@ -7,9 +7,6 @@
 
 namespace clientServer::detail {
 
-//*****************************************************************************
-// Exceptions handler
-
   static void print_nested_exception(
       const std::exception_ptr & eptr = std::current_exception(),
       size_t level = 0) {

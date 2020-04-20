@@ -36,10 +36,10 @@ namespace clientServer {
 
       if (ec.value() != 0) {
         err_msg << "Error #: [" << ec.value() << "]: " << ec.message();
-        std::throw_with_nested(std::invalid_argument(err_msg.str()));
+        throw std::invalid_argument(err_msg.str());
       }
       if (raw_ip_from_ip_addr != raw_ip) {
-        std::throw_with_nested(std::invalid_argument(err_msg.str()));
+        throw std::invalid_argument(err_msg.str());
       }
       return ip_addr;
     }

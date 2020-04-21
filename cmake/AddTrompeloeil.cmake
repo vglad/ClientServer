@@ -5,6 +5,9 @@ if (NOT SKIP_TROMPELOEIL_DOWNLOAD)
       "${CMAKE_CURRENT_SOURCE_DIR}/../ext/trompeloeil.hpp"
       "${CMAKE_CURRENT_SOURCE_DIR}/../ext/catch2/trompeloeil.hpp"
   )
+
+  #TODO: Change download files to release version
+
   set(trompeloeil_headers_urls
       "https://raw.githubusercontent.com/rollbear/trompeloeil/master/include/trompeloeil.hpp"
       "https://raw.githubusercontent.com/rollbear/trompeloeil/master/include/catch2/trompeloeil.hpp"

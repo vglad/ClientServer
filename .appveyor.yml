@@ -36,4 +36,5 @@ environment:
 #  - C:\cmake-3.17.0
 
 build_script:
-  - ps: .\build.ps1 "%build_script_flags%"
+  - powershell .\build.ps1 -Compiler MSVC
+#  - ps: .\build.ps1 %build_script_flags%

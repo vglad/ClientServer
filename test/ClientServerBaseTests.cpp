@@ -28,7 +28,7 @@ TEST_CASE("ClientServerBase get_ip tests") {
     SECTION("returns IP if IPv6 and properly parsed") {
       auto ip = ip::address_v6{};
       REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v6>(""));
-      REQUIRE(ip.any() == ip::address_v6());
+      REQUIRE(ip.any() != ip::address_v6());
       REQUIRE_NOTHROW(ip = base.get_ip<ip::address_v6>("fe80::4abd:ee8:f318:9528"));
       REQUIRE(ip.any() == ip::address_v6());
     }

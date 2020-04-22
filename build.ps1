@@ -102,8 +102,10 @@ $arguments = @('--build', '.', '--config', $BuildType)
 & $cmake @arguments
 
 # Run tests
-$arguments = @('--reporter', 'xml', '--out', 'testresults.xml')
+
 if ($SkipTests -ne $true) {
+  $arguments = @('--reporter', 'xml', '--out', 'testresults.xml')
   & $tests_path @arguments
+  $arguments = @('-a')
   & $tests_path
 }

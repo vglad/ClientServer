@@ -38,4 +38,4 @@ environment:
 build_script:
 #  - powershell .\build.ps1 -Compiler MSVC
   - ps: |
-      .\build.ps1 Env:\APPVEYOR_BUILD_WORKER_IMAGE
+      .\build.ps1 %Env:\APPVEYOR_BUILD_WORKER_IMAGE%

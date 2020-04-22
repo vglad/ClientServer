@@ -46,4 +46,5 @@ if (NOT EXISTS ${BOOST_DIR})
   endforeach ()
 
 endif()
+
 message(STATUS "Boost::Asio dependency prepared")

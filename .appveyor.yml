@@ -40,4 +40,4 @@ environment:
 build_script:
 #  - powershell .\build.ps1 -Compiler MSVC
   - ps: |
-      .\build.ps1 -Compiler %FLAGS%
+      .\build.ps1 -Compiler ${FLAGS}

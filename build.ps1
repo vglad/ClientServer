@@ -35,12 +35,7 @@ $ErrorActionPreference = 'Stop'
 # Setting CMake path
 [String]$cmake = "cmake"
 if ($CMakePath) {
-#  if (-not (Test-Path $CMakePath -PathType Leaf -Include $cmake)) {
-#    Write-Error "No cmake.exe found in -CMakePath parameter."
-#    exit 1
-#  } else {
-    $cmake = $CMakePath
-#  }
+  $cmake = $CMakePath
 }
 
 # Setting build directory
@@ -104,13 +99,14 @@ $arguments = @('--build', '.', '--config', $BuildType)
 # Run tests
 
 if ($SkipTests -ne $true) {
-#  $arguments = @('--reporter', 'junit', '--out', 'testresults.xml')
-#  & $tests_path @arguments
-
-  # upload results to AppVeyor
-#  $wc = New-Object 'System.Net.WebClient'
-#  $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\testresults.xml))
   if (-not $env:APPVEYOR_JOB_ID) {
+    # local test run
     & $tests_path
+  } else {
+    # upload results to AppVeyor
+    $arguments = @('--reporter', 'junit', '--out', 'testresults.xml')
+    & $tests_path @arguments
+    $wc = New-Object 'System.Net.WebClient'
+    $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\testresults.xml))
   }
 }

@@ -13,7 +13,7 @@ environment:
 #      build_script_flags: "-Compiler MSVC"
       fast_finish: true
       build_script:
-        - ps: .\build.ps1 -Compiler MSVC
+        - cmd: powershell -File .\build.ps1 -Compiler MSVC
 
     - platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
@@ -21,7 +21,7 @@ environment:
 #      build_script_flags: "-Compiler Clang"
       fast_finish: true
       build_script:
-        - ps: .\build.ps1 -Compiler MSVC
+        - cmd: powershell -File .\build.ps1
 
 
 #install:

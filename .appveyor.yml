@@ -3,14 +3,18 @@ branches:
     - master
 
 configuration: 
-  - Release
+  - Clang
+  - MSVC
+
+#configuration:
+#  - Release
 
 environment:
 #  - FLAGS: "-Compiler MSVC"
 
   matrix:
-    - FLAGS: MSVC
-      platform: x64
+#    - FLAGS: MSVC
+    - platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
 #      build_script: powershell .\build.ps1 -Compiler MSVC
@@ -40,4 +44,15 @@ environment:
 build_script:
 #  - powershell .\build.ps1 -Compiler MSVC
   - ps: |
-      .\build.ps1 -Compiler ${FLAGS}
+      .\build.ps1 -Compiler Clang
+
+for:
+-
+    matrix:
+      only:
+        - configuration: MSVC
+
+    build_script:
+      #  - powershell .\build.ps1 -Compiler MSVC
+      - ps: |
+          .\build.ps1 -Compiler MSVC

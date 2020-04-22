@@ -6,11 +6,7 @@ if (NOT EXISTS ${BOOST_DIR})
   message(STATUS "  Boost::Asio not found")
   message(STATUS "  Downloading Boost::Asio ...")
 
-  set(boost_major_ver    "1")
-  set(boost_minor_ver    "72")
-  set(boost_revision_ver "0")
-
-  set(boost_ver "${boost_major_ver}.${boost_minor_ver}.${boost_revision_ver}")
+  set(boost_ver "1.72.0")
   set(boost_temp_dir ${CMAKE_CURRENT_SOURCE_DIR}/../../ext/boost_tar_temp)
   set(boost_components asio system config winapi predef)
 
@@ -50,4 +46,5 @@ if (NOT EXISTS ${BOOST_DIR})
   endforeach ()
 
 endif()
+
 message(STATUS "Boost::Asio dependency prepared")

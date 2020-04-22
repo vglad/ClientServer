@@ -26,6 +26,6 @@ for:
       - ps: |
           .\build.ps1 -Compiler MSVC
     test_script:
-      - ps: |
+      - cmd:
           .\tests\tests.exe
 

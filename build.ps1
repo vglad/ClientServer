@@ -113,9 +113,9 @@ if ($SkipTests -ne $true) {
 
   & dir
 
-  [String]$test_result = $(& $tests_path)
+  $test_result = $(& $tests_path)
   echo 1
-  echo '1'$tests_result'2'
+  echo '1' + $tests_result + '2'
   echo 2
 
 }

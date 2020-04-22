@@ -97,7 +97,6 @@ $arguments = @('--build', '.', '--config', $BuildType)
 & $cmake @arguments
 
 # Run tests
-
 if ($SkipTests -ne $true) {
   if (-not $env:APPVEYOR_JOB_ID) {
     # local test run

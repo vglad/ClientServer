@@ -11,16 +11,14 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
       build_script_flags: "-Compiler MSVC"
-      build_script:
-        - powershell .\build.ps1 -Compiler MSVC
+      build_script: powershell .\build.ps1 -Compiler MSVC
       fast_finish: true
 
     - platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
       build_script_flags: "-Compiler Clang"
-      build_script:
-        - powershell .\build.ps1 -Compiler Clang
+      build_script: powershell .\build.ps1 -Compiler Clang
       fast_finish: true
 
 

@@ -10,14 +10,14 @@ environment:
 
   matrix:
 #    - FLAGS: "-Compiler MSVC"
-      platform: x64
+    - platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
 #      build_script: powershell .\build.ps1 -Compiler MSVC
       fast_finish: true
 
-    - FLAGS: "-Compiler Clang"
-      platform: x64
+#    - FLAGS: "-Compiler Clang"
+    - platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
 #      build_script: powershell .\build.ps1 -Compiler Clang

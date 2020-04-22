@@ -6,19 +6,12 @@
 
 namespace clientServer::detail {
 
-<<<<<<< HEAD
-  static void print_nested_exception(
-      const std::exception_ptr & eptr = std::current_exception(),
-      size_t level = 0) {
-    static auto get_nested = [](auto & e) -> std::exception_ptr {
-=======
   static void print_nested_exception(const std::exception& e, size_t level =  0)
   {
     std::cerr << std::string(level, ' ') << "exception: " << e.what() << '\n';
     try {
       // Check if exception has nested exception
       // If not means that it is last level and we simply return
->>>>>>> develop
       try {
         if(!dynamic_cast<const std::nested_exception &>(e).nested_ptr()) { return; }
       } catch (...) { return; }

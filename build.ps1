@@ -104,7 +104,7 @@ $arguments = @('--build', '.', '--config', $BuildType)
 # Run tests
 
 if ($SkipTests -ne $true) {
-  $arguments = @('--reporter', 'xml', '--out', 'testresults.xml')
+  $arguments = @('--reporter', 'junit', '--out', 'testresults.xml')
   & $tests_path @arguments
 
   # upload results to AppVeyor

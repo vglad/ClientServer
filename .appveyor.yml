@@ -7,18 +7,18 @@ configuration:
 
 environment:
   matrix:
-    - platform: x64
+    - FLAGS: "-Compiler MSVC"
+      platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
-      build_script_flags: "-Compiler MSVC"
-      build_script: powershell .\build.ps1 -Compiler MSVC
+#      build_script: powershell .\build.ps1 -Compiler MSVC
       fast_finish: true
 
-    - platform: x64
+    - FLAGS: "-Compiler Clang"
+      platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
-      build_script_flags: "-Compiler Clang"
-      build_script: powershell .\build.ps1 -Compiler Clang
+#      build_script: powershell .\build.ps1 -Compiler Clang
       fast_finish: true
 
 
@@ -35,7 +35,6 @@ environment:
 #cache:
 #  - C:\cmake-3.17.0
 
-#build_script:
+build_script:
 #  - powershell .\build.ps1 -Compiler MSVC
-
-#  - ps: .\build.ps1 %build_script_flags%
+  - ps: .\build.ps1 $env:FLAGS

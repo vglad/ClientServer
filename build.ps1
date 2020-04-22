@@ -106,6 +106,10 @@ $arguments = @('--build', '.', '--config', $BuildType)
 if ($SkipTests -ne $true) {
   $arguments = @('--reporter', 'xml', '--out', 'testresults.xml')
   & $tests_path @arguments
-  $arguments = @('-a')
+
+  # upload results to AppVeyor
+  $wc = New-Object 'System.Net.WebClient'
+  $wc.UploadFile("https://ci.appveyor.com/api/testresults/xunit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path $BuildDir\testresults.xml))
+
   & $tests_path
 }

@@ -2,57 +2,26 @@ branches:
   only:     
     - master
 
-configuration: 
-  - Clang
-  - MSVC
-
-#configuration:
-#  - Release
-
 environment:
-#  - FLAGS: "-Compiler MSVC"
-
   matrix:
-#    - FLAGS: MSVC
-    - platform: x64
+    - configuration: Clang
+      platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      generator: Visual Studio 16 2019 Win64
-#      build_script: powershell .\build.ps1 -Compiler MSVC
       fast_finish: true
 
-##    - FLAGS: "-Compiler Clang"
-#    - platform: x64
-#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-#      generator: Visual Studio 16 2019 Win64
-##      build_script: powershell .\build.ps1 -Compiler Clang
-#      fast_finish: true
-
-
-#install:
-#  - ps: |
-#      if (![IO.File]::Exists("C:\cmake-3.17.0\bin\cmake.exe")) {
-#        Start-FileDownload 'https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0-win64-x64.zip'
-#        7z x -y cmake-3.17.0-win64-x64.zip -oC:\cmake-3.17.0
-#        Get-ChildItem "..\..\cmake-3.17.0\cmake-3.17.0-win64-x64" -Recurse | Move-Item -Destination "..\..\cmake-3.17.0"
-#      }
-#      $env:PATH="C:\cmake-3.17.0\bin;$env:PATH"
-#      cmake --version
-#
-#cache:
-#  - C:\cmake-3.17.0
+    - configuration: MSVC
+      platform: x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      fast_finish: true
 
 build_script:
-#  - powershell .\build.ps1 -Compiler MSVC
   - ps: |
       .\build.ps1 -Compiler Clang
 
 for:
--
-    matrix:
+  - matrix:
       only:
         - configuration: MSVC
-
     build_script:
-      #  - powershell .\build.ps1 -Compiler MSVC
       - ps: |
           .\build.ps1 -Compiler MSVC

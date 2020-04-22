@@ -35,5 +35,5 @@ environment:
 #cache:
 #  - C:\cmake-3.17.0
 
-#build_script:
+build_script:
   - ps: .\build.ps1 "%build_script_flags%"

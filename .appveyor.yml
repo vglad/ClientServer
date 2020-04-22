@@ -8,22 +8,29 @@ configuration:
 environment:
   matrix:
     - platform: x64
-      generator: Visual Studio 16 2019 Win64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
-      fast_finish: true 
+      generator: Visual Studio 16 2019 Win64
+      build_script_flags: "-Compiler MSVC"
+      fast_finish: true
 
-install:
-  - ps: |
-      if (![IO.File]::Exists("C:\cmake-3.17.0\bin\cmake.exe")) {
-        Start-FileDownload 'https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0-win64-x64.zip'
-        7z x -y cmake-3.17.0-win64-x64.zip -oC:\cmake-3.17.0
-        Get-ChildItem "..\..\cmake-3.17.0\cmake-3.17.0-win64-x64" -Recurse | Move-Item -Destination "..\..\cmake-3.17.0"
-      }
-      $env:PATH="C:\cmake-3.17.0\bin;$env:PATH"
-      cmake --version
+    - platform: x64
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      generator: Visual Studio 16 2019 Win64
+      build_script_flags: "-Compiler Clang"
+      fast_finish: true
 
-cache: 
-  - C:\cmake-3.17.0
+#install:
+#  - ps: |
+#      if (![IO.File]::Exists("C:\cmake-3.17.0\bin\cmake.exe")) {
+#        Start-FileDownload 'https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0-win64-x64.zip'
+#        7z x -y cmake-3.17.0-win64-x64.zip -oC:\cmake-3.17.0
+#        Get-ChildItem "..\..\cmake-3.17.0\cmake-3.17.0-win64-x64" -Recurse | Move-Item -Destination "..\..\cmake-3.17.0"
+#      }
+#      $env:PATH="C:\cmake-3.17.0\bin;$env:PATH"
+#      cmake --version
+#
+#cache:
+#  - C:\cmake-3.17.0
 
 build_script:
-  - ps: .\build.ps1
+  - ps: .\build.ps1 {build_script_flags}

@@ -17,6 +17,10 @@ environment:
 build_script:
   - ps: |
       .\build.ps1 -Compiler Clang
+test_script:
+  - ps: |
+      .\test\tests.exe
+
 
 for:
   - matrix:

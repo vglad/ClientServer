@@ -6,8 +6,10 @@ configuration:
   - Release
 
 environment:
+  - FLAGS: "-Compiler MSVC"
+
   matrix:
-    - FLAGS: "-Compiler MSVC"
+#    - FLAGS: "-Compiler MSVC"
       platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
@@ -38,4 +40,4 @@ environment:
 build_script:
 #  - powershell .\build.ps1 -Compiler MSVC
   - ps: |
-      .\build.ps1 %APPVEYOR_BUILD_WORKER_IMAGE%
+      .\build.ps1 %FLAGS%

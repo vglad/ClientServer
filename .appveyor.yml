@@ -27,5 +27,5 @@ for:
           .\build.ps1 -Compiler MSVC
     test_script:
       - ps: |
-          .\test\tests.exe
+          .\test\Release\tests.exe
 

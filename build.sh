@@ -65,5 +65,4 @@ cmake --build . -- -j "$(nproc)"
 
 
 # Run tests if they built
-[[ ${SKIP_TESTS} == OFF ]] && ${BUILD_DIR}/test/tests --reporter xml --out testresults.xml
 [[ ${SKIP_TESTS} == OFF ]] && ${BUILD_DIR}/test/tests

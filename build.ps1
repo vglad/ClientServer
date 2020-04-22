@@ -74,14 +74,14 @@ if ($Compiler -eq "Clang") {
   $compiler_cxx       = '-DCMAKE_CXX_COMPILER:STRING=clang++'
   $compiler_cxx_flags = '-DCMAKE_CXX_FLAGS="-m64 -Wall -Wextra -Werror -Wpedantic -pedantic-errors ' `
                         + $silence_boost_wanrnings + '"'
-  $tests_path         = $BuildDir + '\test\tests.exe' + '--reporter xml --out testresults.xml'
+  $tests_path         = $BuildDir + '\test\tests.exe'
 } else {
   # Setting Visual Studio variables
   [String]$VSPath = $(& 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' `
                         -latest -property installationPath)
   & $VSPath'\VC\Auxiliary\Build\vcvarsall.bat' 'x64'
   $compiler_cxx_flags = '-DCMAKE_CXX_FLAGS="/EHsc /W4 /WX"'
-  $tests_path = $BuildDir + '\test\' + $BuildType + '\tests.exe --reporter xml --out testresults.xml'
+  $tests_path = $BuildDir + '\test\' + $BuildType + '\tests.exe'
 }
 
 # Configure CMake and build
@@ -103,5 +103,5 @@ $arguments = @('--build', '.', '--config', $BuildType)
 
 # Run tests
 if ($SkipTests -ne $true) {
-  & $tests_path
+  & $tests_path' --reporter xml --out testresults.xml'
 }

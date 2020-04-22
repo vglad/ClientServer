@@ -37,4 +37,4 @@ environment:
 
 build_script:
 #  - powershell .\build.ps1 -Compiler MSVC
-  - ps: .\build.ps1 Env:FLAGS
+  - ps: .\build.ps1 Env:\FLAGS

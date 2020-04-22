@@ -103,5 +103,5 @@ $arguments = @('--build', '.', '--config', $BuildType)
 
 # Run tests
 if ($SkipTests -ne $true) {
-  & $tests_path' --reporter xml --out testresults.xml'
+  & $tests_path
 }

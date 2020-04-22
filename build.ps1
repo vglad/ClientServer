@@ -108,10 +108,14 @@ if ($SkipTests -ne $true) {
   & $tests_path @arguments
 
   # upload results to AppVeyor
-  $wc = New-Object 'System.Net.WebClient'
-  $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\testresults.xml))
+#  $wc = New-Object 'System.Net.WebClient'
+#  $wc.UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\testresults.xml))
 
   & dir
 
-  & $tests_path
+  [String]$test_result = $(& $tests_path)
+  echo 1
+  echo '1'$tests_result'2'
+  echo 2
+
 }

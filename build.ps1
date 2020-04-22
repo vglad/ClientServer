@@ -74,7 +74,7 @@ if ($Compiler -eq "Clang") {
   $compiler_cxx       = '-DCMAKE_CXX_COMPILER:STRING=clang++'
   $compiler_cxx_flags = '-DCMAKE_CXX_FLAGS="-m64 -Wall -Wextra -Werror -Wpedantic -pedantic-errors ' `
                         + $silence_boost_wanrnings + '"'
-  $tests_path         = $BuildDir + '\test\tests.exe --reporter xml --out testresults.xml'
+  $tests_path         = $BuildDir + '\test\tests.exe' + '--reporter xml --out testresults.xml'
 } else {
   # Setting Visual Studio variables
   [String]$VSPath = $(& 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe' `

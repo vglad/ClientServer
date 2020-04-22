@@ -10,15 +10,15 @@ environment:
     - platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
-#      build_script_flags: "-Compiler MSVC"
-      build_script: powershell.exe -File .\build.ps1
+      build_script_flags: "-Compiler MSVC"
+#      build_script: powershell.exe -File .\build.ps1
       fast_finish: true
 
     - platform: x64
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       generator: Visual Studio 16 2019 Win64
-#      build_script_flags: "-Compiler Clang"
-      build_script: powershell -File .\build.ps1
+      build_script_flags: "-Compiler Clang"
+#      build_script: powershell -File .\build.ps1
       fast_finish: true
 
 
@@ -36,4 +36,4 @@ environment:
 #  - C:\cmake-3.17.0
 
 #build_script:
-#  - ps: .\build.ps1 build_script_flags
+  - ps: .\build.ps1 "%build_script_flags%"

@@ -67,11 +67,13 @@ if ($SkipTests -eq $true) {
 [String]$compiler_cxx_flags = ''
 
 if ($Compiler -eq "Clang") {
+  [String]$silence_boost_wanrnings = '-Wno-language-extension-token -Wno-gnu-anonymous-struct'
   $generator_flag     = '-G'
   $generator_name     = 'Ninja'
   $compiler_c         = '-DCMAKE_C_COMPILER:STRING=clang'
   $compiler_cxx       = '-DCMAKE_CXX_COMPILER:STRING=clang++'
-  $compiler_cxx_flags = '-DCMAKE_CXX_FLAGS="-m64 -Wall -Wextra -Werror -Wpedantic -pedantic-errors -Wno-language-extension-token -Wno-gnu-anonymous-struct"'
+  $compiler_cxx_flags = '-DCMAKE_CXX_FLAGS="-m64 -Wall -Wextra -Werror -Wpedantic -pedantic-errors ' `
+                        + $silence_boost_wanrnings + '"'
   $tests_path         = $BuildDir + '\test\tests.exe'
 } else {
   # Setting Visual Studio variables

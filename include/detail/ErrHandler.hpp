@@ -10,17 +10,15 @@ namespace clientServer::detail {
   {
     std::cerr << std::string(level, ' ') << "exception: " << e.what() << '\n';
     try {
-
       // Check if exception has nested exception
       // If not means that it is last level and we simply return
       try {
         if(!dynamic_cast<const std::nested_exception &>(e).nested_ptr()) { return; }
-      }
-      catch (...) { return; }
+      } catch (...) { return; }
 
       std::rethrow_if_nested(e);
     } catch(const std::exception& e) {
-      print_nested_exception(e, level + 2);
+        print_nested_exception(e, level + 2);
     } catch(...) {}
   }
 
